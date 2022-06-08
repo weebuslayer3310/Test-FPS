@@ -9,6 +9,8 @@ public class MouseLook : MonoBehaviour
     public float mouseSensitivity = 100.0f;
     private float xRotation = 0.0f;
 
+    public Transform weaponHolder;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -33,6 +35,9 @@ public class MouseLook : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -80.0f, 75.0f);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0.0f, 0.0f);
+        weaponHolder.localRotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         playerBody.Rotate(Vector3.up * mouseX);
+
+        
     }
 }

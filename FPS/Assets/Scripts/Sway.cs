@@ -22,7 +22,8 @@ public class Sway : MonoBehaviour
     }
 
     /// <summary>
-    /// functiong that adding sway to the gun
+    /// function that adding sway to the gun
+    /// Created by: NghiaDC (6/6/2022)
     /// </summary>
     public void UpdateSway()
     {
