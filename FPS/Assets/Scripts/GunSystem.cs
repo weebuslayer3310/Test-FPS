@@ -5,10 +5,14 @@ using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
+    public GameObject currentWeapon;
+
     [Header("Gun Stats")]
     public int damage;
     public float timeBetweenShooting;
     public float spread;
+    public float recoil;
+    public float kickback;
     public float range;
     public float reloadTime;
     public float timeBetweenShots;
@@ -26,12 +30,14 @@ public class GunSystem : MonoBehaviour
     [Header("Gun's Reference")]
     private Camera fpsCam;
     public Transform attackPoint;
+    public Transform shellPoint;
     public RaycastHit rayHit;
     public LayerMask whatIsEnemy;
 
     [Header("Gun's Graphic")]
     public GameObject muzzleFlash;
     public GameObject bulletHoleGraphic;
+    public GameObject shells;
     private TextMeshProUGUI text;
     public float aimSpeed;
 
@@ -95,8 +101,15 @@ public class GunSystem : MonoBehaviour
         //Calculate direction with Spread.
         Vector3 direction = fpsCam.transform.forward + new Vector3(x, y, 0);
 
+        Vector3 temporarySpread = fpsCam.transform.position + direction * 100f;
+        temporarySpread += x * direction;
+        temporarySpread += y * direction;
+
+        temporarySpread -= fpsCam.transform.position;
+        temporarySpread.Normalize();
+
         //Raycast.
-        if(Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
+        if (Physics.Raycast(fpsCam.transform.position, temporarySpread, out rayHit, range, whatIsEnemy))
         {
             Debug.Log(rayHit.collider.name);
 
@@ -107,11 +120,18 @@ public class GunSystem : MonoBehaviour
             //}
         }
 
+        //gun fx.
+        currentWeapon.transform.Rotate(-recoil, 0, 0);
+        currentWeapon.transform.position -= currentWeapon.transform.forward * kickback;
+
         //Graphics.
         var bulletHoleClone = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
         Destroy(bulletHoleClone, 2.0f);
         var muzzleFlashClone = Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
         Destroy(muzzleFlashClone, 2.0f);
+        var ShellsClone = Instantiate(shells, shellPoint.position, Quaternion.identity);
+        Destroy(ShellsClone, 0.5f);
+
 
         bulletsLeft--;
         bulletsShot--;

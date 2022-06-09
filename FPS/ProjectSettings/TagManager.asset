@@ -6,6 +6,9 @@ TagManager:
   tags:
   - FPSCam
   - Ammo
+  - weapon
+  - weaponScript
+  - Enemy
   layers:
   - Default
   - TransparentFX

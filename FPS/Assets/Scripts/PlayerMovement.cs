@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
         // handle head bobbing while idle
         if (x == 0 && z == 0)
         {
-            HandleHeadBob(IdleCounter, 0.025f, 0.025f);
+            HandleHeadBob(IdleCounter, 0.001f, 0.001f);
             IdleCounter += Time.deltaTime;
         }
         weapon.localPosition = Vector3.Lerp(weapon.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
