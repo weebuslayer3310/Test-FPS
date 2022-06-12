@@ -9,6 +9,7 @@ TagManager:
   - weapon
   - weaponScript
   - Enemy
+  - projectile
   layers:
   - Default
   - TransparentFX

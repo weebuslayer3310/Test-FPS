@@ -111,13 +111,11 @@ public class GunSystem : MonoBehaviour
         //Raycast.
         if (Physics.Raycast(fpsCam.transform.position, temporarySpread, out rayHit, range, whatIsEnemy))
         {
-            Debug.Log(rayHit.collider.name);
-
-            //if (rayHit.collider.CompareTag("Enemy"))
-            //{
-                  //rayHit.collider.GetComponent<ShootingAI>().TakeDamage(damage);
-            //    Debug.Log("we hit an enemy!!");
-            //}
+            if (rayHit.collider.CompareTag("Enemy"))
+            {
+                Debug.Log("you just hit my snowman");
+                rayHit.collider.GetComponent<EnemyHealth>().TakeDamage(damage);
+            }
         }
 
         //gun fx.
