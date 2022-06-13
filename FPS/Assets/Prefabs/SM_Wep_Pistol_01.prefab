@@ -472,7 +472,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224933577645332249}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.008000183, y: 0.062, z: 0.39720002}
+  m_LocalPosition: {x: -0.008000183, y: -0.03799963, z: 0.39720002}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -631,7 +631,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4224036937511733629}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.243, y: 0.09, z: 0}
+  m_LocalPosition: {x: -0.243, y: 0.09, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -676,6 +676,7 @@ Transform:
   - {fileID: 4480256335942086}
   - {fileID: 4389793416851796}
   - {fileID: 1224933577645332250}
+  - {fileID: 7841384212625304020}
   m_Father: {fileID: 1888385000932393771}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -755,9 +756,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9fb9500574a3af4495a1d18d7102ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentWeapon: {fileID: 7317694252131037613}
   damage: 20
   timeBetweenShooting: 0.05
-  spread: 0.02
+  spread: 0.2
+  recoil: 20
+  kickback: 0.3
   range: 100
   reloadTime: 1
   timeBetweenShots: 0
@@ -765,6 +769,7 @@ MonoBehaviour:
   bulletsPerTap: 1
   allowButtonHold: 0
   attackPoint: {fileID: 1224933577645332250}
+  shellPoint: {fileID: 7841384212625304020}
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 9
@@ -772,3 +777,36 @@ MonoBehaviour:
     type: 3}
   bulletHoleGraphic: {fileID: 1450638143650814, guid: 8d9c489751f2ea644b3d6b96997e759b,
     type: 3}
+  shells: {fileID: 1441219844518638, guid: 0abc75f4e092ae141bf08fea28276abd, type: 3}
+  aimSpeed: 20
+--- !u!1 &7841384212625304021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7841384212625304020}
+  m_Layer: 7
+  m_Name: Shell
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7841384212625304020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7841384212625304021}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.05999999, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7315928389402707597}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
