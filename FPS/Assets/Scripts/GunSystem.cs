@@ -41,6 +41,12 @@ public class GunSystem : MonoBehaviour
     private TextMeshProUGUI text;
     public float aimSpeed;
 
+    [Header("Gun Sound")]
+    public AudioClip[] GunShotSounds;
+    private AudioSource audioSource;
+    public AudioClip ReloadSound;
+    public AudioClip[] ImpactSound;
+
     private void Awake()
     {
         if(fpsCam == null)
@@ -50,6 +56,12 @@ public class GunSystem : MonoBehaviour
         text = GameObject.FindGameObjectWithTag("Ammo").GetComponent<TextMeshProUGUI>() as TextMeshProUGUI;
         bulletsLeft = mangazineSize;
         readyToShoot = true;
+
+        audioSource = GetComponent<AudioSource>();
+        if(audioSource == null)
+        {
+            Debug.Log("No Error Found!!");
+        }
     }
 
     private void Update()
@@ -113,7 +125,12 @@ public class GunSystem : MonoBehaviour
         {
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                Debug.Log("you just hit my snowman");
+                for (int i = 0; i < ImpactSound.Length; i++)
+                {
+                    audioSource.clip = ImpactSound[i]; 
+                    audioSource.PlayOneShot(audioSource.clip);
+                }
+                
                 rayHit.collider.GetComponent<EnemyHealth>().TakeDamage(damage);
             }
         }
@@ -121,6 +138,9 @@ public class GunSystem : MonoBehaviour
         //gun fx.
         currentWeapon.transform.Rotate(-recoil, 0, 0);
         currentWeapon.transform.position -= currentWeapon.transform.forward * kickback;
+
+        //shooting sfx.
+        PlayShootingSound();
 
         //Graphics.
         var bulletHoleClone = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
@@ -153,6 +173,8 @@ public class GunSystem : MonoBehaviour
     /// </summary>
     private void Reload()
     {
+        audioSource.clip = ReloadSound;
+        audioSource.PlayOneShot(audioSource.clip);
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
@@ -161,5 +183,15 @@ public class GunSystem : MonoBehaviour
     {
         bulletsLeft = mangazineSize;
         reloading = false;
+    }
+
+    private void PlayShootingSound()
+    {
+        //get an Audio Clip
+        int n = Random.Range(1, GunShotSounds.Length);
+        audioSource.clip = GunShotSounds[n];
+
+        //Play the sound once
+        audioSource.PlayOneShot(audioSource.clip);
     }
 }
