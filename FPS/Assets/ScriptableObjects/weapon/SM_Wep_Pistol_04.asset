@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0f261e22cdc734f9b53cc2aebe2fb7, type: 3}
+  m_Name: SM_Wep_Pistol_04
+  m_EditorClassIdentifier: 
+  name: SM_Wep_Pistol_04
+  fireRate: 0
+  aimSpeed: 15
+  prefab: {fileID: 1783581205502582, guid: 4f75933f8cd5556429f7742f5bd45b5b, type: 3}

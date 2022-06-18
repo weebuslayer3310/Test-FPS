@@ -4,39 +4,37 @@ using UnityEngine;
 
 public class Sway : MonoBehaviour
 {
-    [Header("Weapon Sway")]
-    
-    public float intensity = 5.0f;
-    public float smooth = 10.0f;
-    private Quaternion originRotation;
+    public float intensity;
+    public float smooth;
 
+    private Quaternion originRotation;
 
     private void Start()
     {
-        originRotation = transform.rotation;
+        originRotation = transform.localRotation;
     }
 
     private void Update()
     {
-        UpdateSway();
+        GunSway();
     }
 
     /// <summary>
-    /// function that adding sway to the gun
-    /// Created by: NghiaDC (6/6/2022)
+    /// Get the Gun swaying when moving the mouse 
+    /// Created by: NghiaDC (18/6/2022)
     /// </summary>
-    public void UpdateSway()
+    void GunSway()
     {
-        //controls
+        //controls.
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        //calculate target rotation
-        Quaternion targetAdjustmentX = Quaternion.AngleAxis(-intensity * mouseX, Vector3.up);
-        Quaternion targetAdjustmentY = Quaternion.AngleAxis(intensity * mouseY, Vector3.right);
-        Quaternion targetRotation = originRotation * targetAdjustmentX * targetAdjustmentY;
+        //calculate target rotation.
+        Quaternion adjustmentX = Quaternion.AngleAxis(-intensity * mouseX, Vector3.up);
+        Quaternion adjustmentY = Quaternion.AngleAxis(intensity * mouseY, Vector3.right);
+        Quaternion targetRotation = originRotation * adjustmentX * adjustmentY;
 
-        //rotate the gun towards that rotation
+        //rotate towards target rotation.
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * smooth);
     }
 }

@@ -27,17 +27,24 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
 
     [Header("weapon bobbing")]
-    public Transform weapon;
-    private Vector3 weaponOrigin;
+    public Transform weaponParent;
+    private Vector3 weaponParentOrigin;
     private float movementCounter;
-    private float IdleCounter;
-    private Vector3 targetWeaponBobPosition;
-    
+    private float idleCounter;
+
+    //public Transform weapon;
+    //private Vector3 weaponOrigin;
+    //private float movementCounter;
+    //private float IdleCounter;
+    //private Vector3 targetWeaponBobPosition;
+
 
     void Start()
     {
         baseFOV = cam.fieldOfView;
-        weaponOrigin = weapon.localPosition;
+
+        weaponParentOrigin = weaponParent.localPosition;
+        //weaponOrigin = weapon.localPosition;
     }
     void Update()
     {
@@ -72,8 +79,8 @@ public class PlayerMovement : MonoBehaviour
             speed = runningSpeed;
 
             //weapon bobbing while sprinting
-            HandleHeadBob(movementCounter, 0.015f, 0.035f);
-            movementCounter += Time.deltaTime * 8.0f;
+            //HandleHeadBob(movementCounter, 0.015f, 0.035f);
+            //movementCounter += Time.deltaTime * 8.0f;
         }
         else
         {
@@ -83,8 +90,8 @@ public class PlayerMovement : MonoBehaviour
             speed = walkingSpeed;
 
             //weapon bobbing while walking
-            HandleHeadBob(movementCounter, 0.015f, 0.04f);
-            movementCounter += Time.deltaTime * 4.0f;
+            //HandleHeadBob(movementCounter, 0.015f, 0.04f);
+            //movementCounter += Time.deltaTime * 4.0f;
         }
 
         controller.Move(move * speed * Time.deltaTime);
@@ -94,13 +101,25 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
         }
 
-        // handle head bobbing while idle
-        if (x == 0 && z == 0)
+        //head bob
+        if(x == 0 && z == 0)
         {
-            HandleHeadBob(IdleCounter, 0.001f, 0.001f);
-            IdleCounter += Time.deltaTime;
+            HeadBob(idleCounter, 0.1f, 0.1f);
+            idleCounter += Time.deltaTime;
         }
-        weapon.localPosition = Vector3.Lerp(weapon.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
+        else
+        {
+            HeadBob(movementCounter, 0.5f, 0.5f);
+            movementCounter += Time.deltaTime;
+        }
+
+        //handle head bobbing while idle
+        //if (x == 0 && z == 0)
+        //{
+        //    HandleHeadBob(IdleCounter, 0.001f, 0.001f);
+        //    IdleCounter += Time.deltaTime;
+        //}
+        //weapon.localPosition = Vector3.Lerp(weapon.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
     }
 
     /// <summary>
@@ -135,8 +154,13 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="paremeterZ"></param>
     /// <param name="intensityX"></param>
     /// <param name="intensityY"></param>
-    private void HandleHeadBob(float paremeterZ, float intensityX, float intensityY)
+    //private void HandleHeadBob(float paremeterZ, float intensityX, float intensityY)
+    //{
+    //    targetWeaponBobPosition = weaponOrigin + new Vector3(Mathf.Cos(paremeterZ) * intensityX, Mathf.Sin(paremeterZ * 2) * intensityY, 0);
+    //}
+
+    void HeadBob(float z, float intensityX, float intensityY)
     {
-        targetWeaponBobPosition = weaponOrigin + new Vector3 (Mathf.Cos(paremeterZ ) * intensityX, Mathf.Sin(paremeterZ * 2) * intensityY, 0);
+        weaponParent.localPosition = new Vector3 (Mathf.Cos(z) * intensityX, Mathf.Sin(z) * intensityY, weaponParentOrigin.z);
     }
 }
