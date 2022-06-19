@@ -41,11 +41,11 @@ public class GunSystem : MonoBehaviour
     private TextMeshProUGUI text;
     public float aimSpeed;
 
-    [Header("Gun Sound")]
-    public AudioClip[] GunShotSounds;
-    private AudioSource audioSource;
-    public AudioClip ReloadSound;
-    public AudioClip[] ImpactSound;
+    //[Header("Gun Sound")]
+    //public AudioClip[] GunShotSounds;
+    //private AudioSource audioSource;
+    //public AudioClip ReloadSound;
+    //public AudioClip[] ImpactSound;
 
     private void Awake()
     {
@@ -54,14 +54,16 @@ public class GunSystem : MonoBehaviour
             fpsCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         }
         text = GameObject.FindGameObjectWithTag("Ammo").GetComponent<TextMeshProUGUI>() as TextMeshProUGUI;
+
+        currentWeapon = GameObject.FindGameObjectWithTag("Weapon");
         bulletsLeft = mangazineSize;
         readyToShoot = true;
 
-        audioSource = GetComponent<AudioSource>();
-        if(audioSource == null)
-        {
-            Debug.Log("No Error Found!!");
-        }
+        //audioSource = GetComponent<AudioSource>();
+        //if(audioSource == null)
+        //{
+        //    Debug.Log("No Error Found!!");
+        //}
     }
 
     private void Update()
@@ -125,11 +127,11 @@ public class GunSystem : MonoBehaviour
         {
             if (rayHit.collider.CompareTag("Enemy"))
             {
-                for (int i = 0; i < ImpactSound.Length; i++)
-                {
-                    audioSource.clip = ImpactSound[i]; 
-                    audioSource.PlayOneShot(audioSource.clip);
-                }
+                //for (int i = 0; i < ImpactSound.Length; i++)
+                //{
+                //    audioSource.clip = ImpactSound[i]; 
+                //    audioSource.PlayOneShot(audioSource.clip);
+                //}
                 
                 rayHit.collider.GetComponent<EnemyHealth>().TakeDamage(damage);
             }
@@ -140,7 +142,7 @@ public class GunSystem : MonoBehaviour
         currentWeapon.transform.position -= currentWeapon.transform.forward * kickback;
 
         //shooting sfx.
-        PlayShootingSound();
+        //PlayShootingSound();
 
         //Graphics.
         var bulletHoleClone = Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
@@ -173,8 +175,8 @@ public class GunSystem : MonoBehaviour
     /// </summary>
     private void Reload()
     {
-        audioSource.clip = ReloadSound;
-        audioSource.PlayOneShot(audioSource.clip);
+        //audioSource.clip = ReloadSound;
+        //audioSource.PlayOneShot(audioSource.clip);
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
@@ -185,13 +187,13 @@ public class GunSystem : MonoBehaviour
         reloading = false;
     }
 
-    private void PlayShootingSound()
-    {
-        //get an Audio Clip
-        int n = Random.Range(1, GunShotSounds.Length);
-        audioSource.clip = GunShotSounds[n];
+    //private void PlayShootingSound()
+    //{
+    //    //get an Audio Clip
+    //    int n = Random.Range(1, GunShotSounds.Length);
+    //    audioSource.clip = GunShotSounds[n];
 
-        //Play the sound once
-        audioSource.PlayOneShot(audioSource.clip);
-    }
+    //    //Play the sound once
+    //    audioSource.PlayOneShot(audioSource.clip);
+    //}
 }

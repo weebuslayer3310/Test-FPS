@@ -31,20 +31,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 weaponParentOrigin;
     private float movementCounter;
     private float idleCounter;
-
-    //public Transform weapon;
-    //private Vector3 weaponOrigin;
-    //private float movementCounter;
-    //private float IdleCounter;
-    //private Vector3 targetWeaponBobPosition;
+    private Vector3 targetWeaponBobPosition;
 
 
     void Start()
     {
         baseFOV = cam.fieldOfView;
-
         weaponParentOrigin = weaponParent.localPosition;
-        //weaponOrigin = weapon.localPosition;
     }
     void Update()
     {
@@ -77,10 +70,6 @@ public class PlayerMovement : MonoBehaviour
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, baseFOV * sprintFOVmodifier, Time.deltaTime * 8.0f);
 
             speed = runningSpeed;
-
-            //weapon bobbing while sprinting
-            //HandleHeadBob(movementCounter, 0.015f, 0.035f);
-            //movementCounter += Time.deltaTime * 8.0f;
         }
         else
         {
@@ -88,38 +77,49 @@ public class PlayerMovement : MonoBehaviour
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, baseFOV, Time.deltaTime * 8.0f);
 
             speed = walkingSpeed;
-
-            //weapon bobbing while walking
-            //HandleHeadBob(movementCounter, 0.015f, 0.04f);
-            //movementCounter += Time.deltaTime * 4.0f;
         }
 
         controller.Move(move * speed * Time.deltaTime);
+
+        //head bobbing
+        #region Head Bobbing
+        if (x == 0 && z == 0)
+        {
+            HeadBob(idleCounter, 0.0f, 0.01f);
+            idleCounter += Time.deltaTime;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetWeaponBobPosition, Time.deltaTime * 2.0f);
+        }
+        else if(!Input.GetKey(KeyCode.LeftShift) && isGrounded && !Input.GetMouseButton(1))
+        {
+            HeadBob(movementCounter, 0.1f, 0.05f);
+            movementCounter += Time.deltaTime * 5;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetWeaponBobPosition, Time.deltaTime * 6.0f);
+        }
+        else if (!isGrounded)
+        {
+            HeadBob(movementCounter, 0.0f, 0.0f);
+            movementCounter += Time.deltaTime * 7;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            HeadBob(movementCounter, 0.0f, 0.01f);
+            movementCounter += Time.deltaTime * 7;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
+        }
+        else if(Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        {
+            HeadBob(movementCounter, 0.1f, 0.07f);
+            movementCounter += Time.deltaTime * 7;
+            weaponParent.localPosition = Vector3.Lerp(weaponParent.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
+        }
+        #endregion
+
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
         }
-
-        //head bob
-        if(x == 0 && z == 0)
-        {
-            HeadBob(idleCounter, 0.1f, 0.1f);
-            idleCounter += Time.deltaTime;
-        }
-        else
-        {
-            HeadBob(movementCounter, 0.5f, 0.5f);
-            movementCounter += Time.deltaTime;
-        }
-
-        //handle head bobbing while idle
-        //if (x == 0 && z == 0)
-        //{
-        //    HandleHeadBob(IdleCounter, 0.001f, 0.001f);
-        //    IdleCounter += Time.deltaTime;
-        //}
-        //weapon.localPosition = Vector3.Lerp(weapon.localPosition, targetWeaponBobPosition, Time.deltaTime * 8.0f);
     }
 
     /// <summary>
@@ -154,13 +154,8 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="paremeterZ"></param>
     /// <param name="intensityX"></param>
     /// <param name="intensityY"></param>
-    //private void HandleHeadBob(float paremeterZ, float intensityX, float intensityY)
-    //{
-    //    targetWeaponBobPosition = weaponOrigin + new Vector3(Mathf.Cos(paremeterZ) * intensityX, Mathf.Sin(paremeterZ * 2) * intensityY, 0);
-    //}
-
     void HeadBob(float z, float intensityX, float intensityY)
     {
-        weaponParent.localPosition = new Vector3 (Mathf.Cos(z) * intensityX, Mathf.Sin(z) * intensityY, weaponParentOrigin.z);
+        targetWeaponBobPosition = weaponParentOrigin + new Vector3(Mathf.Cos(z) * intensityX, Mathf.Sin(z * 2) * intensityY, 0);
     }
 }
