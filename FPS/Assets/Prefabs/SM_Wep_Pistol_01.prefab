@@ -779,6 +779,9 @@ MonoBehaviour:
     type: 3}
   shells: {fileID: 1441219844518638, guid: 0abc75f4e092ae141bf08fea28276abd, type: 3}
   aimSpeed: 20
+  GunShotSounds: []
+  ReloadSound: {fileID: 0}
+  ImpactSound: []
 --- !u!1 &7841384212625304021
 GameObject:
   m_ObjectHideFlags: 0
