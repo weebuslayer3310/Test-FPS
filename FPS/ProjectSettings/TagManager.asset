@@ -10,6 +10,8 @@ TagManager:
   - weaponScript
   - Enemy
   - projectile
+  - Bullet
+  - attackPoint
   layers:
   - Default
   - TransparentFX

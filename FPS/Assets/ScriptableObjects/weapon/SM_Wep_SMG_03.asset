@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: SM_Wep_SMG_03
   m_EditorClassIdentifier: 
   name: SM_Wep_SMG_03
-  fireRate: 0
+  fireRate: 0.15
+  damage: 10
+  spread: 60
+  recoil: 10
+  kickBack: 0.3
   aimSpeed: 15
   prefab: {fileID: 1526058278040482, guid: ed8ae4ad8af119b40b1b73d1d91e41e6, type: 3}
