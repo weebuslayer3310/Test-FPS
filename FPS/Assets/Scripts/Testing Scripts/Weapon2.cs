@@ -55,6 +55,10 @@ public class Weapon2 : MonoBehaviour
         {
             Equip(1);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Equip(2);
+        }
     }
 
     /// <summary>
