@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0f261e22cdc734f9b53cc2aebe2fb7, type: 3}
+  m_Name: SM_Wep_Shotgun_03
+  m_EditorClassIdentifier: 
+  name: SM_Wep_Shotgun_03
+  fireRate: 0.3
+  damage: 0
+  spread: 60
+  recoil: 10
+  kickBack: 0.3
+  aimSpeed: 15
+  prefab: {fileID: 1187504085507168, guid: 1b3ce02f1d269a24ba4856fc6302bc5b, type: 3}

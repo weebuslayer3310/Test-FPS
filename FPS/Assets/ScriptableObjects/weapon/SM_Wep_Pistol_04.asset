@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: SM_Wep_Pistol_04
   m_EditorClassIdentifier: 
   name: SM_Wep_Pistol_04
-  fireRate: 0
+  fireRate: 0.15
+  damage: 10
+  spread: 60
+  recoil: 10
+  kickBack: 0.2
   aimSpeed: 15
   prefab: {fileID: 1783581205502582, guid: 4f75933f8cd5556429f7742f5bd45b5b, type: 3}
+  muzzleFlash: {fileID: 6574387294351714602, guid: e877161966665f44db9ecfffbb05e9b7,
+    type: 3}
+  attackPoint: {fileID: 0}
