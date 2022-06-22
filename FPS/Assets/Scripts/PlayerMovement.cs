@@ -156,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="intensityY"></param>
     void HeadBob(float z, float intensityX, float intensityY)
     {
+        float aim_adjust = 1.0f;
         targetWeaponBobPosition = weaponParentOrigin + new Vector3(Mathf.Cos(z) * intensityX, Mathf.Sin(z * 2) * intensityY, 0);
     }
 }

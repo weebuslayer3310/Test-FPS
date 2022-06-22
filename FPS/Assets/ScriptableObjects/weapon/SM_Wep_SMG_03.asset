@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: SM_Wep_SMG_03
   m_EditorClassIdentifier: 
   name: SM_Wep_SMG_03
-  fireRate: 0.15
+  fireRate: 0.1
   damage: 10
+  burst: 1
+  pellets: 0
+  recovery: 0
   spread: 60
   recoil: 10
   kickBack: 0.3

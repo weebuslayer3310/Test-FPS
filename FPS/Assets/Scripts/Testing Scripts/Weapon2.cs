@@ -10,6 +10,7 @@ public class Weapon2 : MonoBehaviour
 
     private int currentIndex;
     private GameObject currentWeapon;
+    public bool Aiming = false;
 
     public GameObject bulletHolePrefabs;
     public LayerMask canBeShot;
@@ -25,9 +26,19 @@ public class Weapon2 : MonoBehaviour
         {
             Aim(Input.GetMouseButton(1));
 
-            if (Input.GetMouseButtonDown(0) && currentCooldown <= 0)
+            if(loadout[currentIndex].burst != 1)
             {
-                Shoot();
+                if (Input.GetMouseButtonDown(0) && currentCooldown <= 0)
+                {
+                    Shoot();
+                }
+            }
+            else
+            {
+                if (Input.GetMouseButton(0) && currentCooldown <= 0)
+                {
+                    Shoot();
+                }
             }
 
             //weapon position elasticity
@@ -83,6 +94,7 @@ public class Weapon2 : MonoBehaviour
 
     void Aim(bool isAiming)
     {
+        Aiming = isAiming;
         Transform anchor = currentWeapon.transform.Find("Anchor");
         Transform ADS = currentWeapon.transform.Find("States/ADS");
         Transform Hip = currentWeapon.transform.Find("States/Hip");
@@ -109,36 +121,40 @@ public class Weapon2 : MonoBehaviour
     /// </summary>
     private void Shoot()
     {
+        //cooldown
+        currentCooldown = loadout[currentIndex].fireRate;
+
         Transform spawn = transform.Find("Main Camera/WeaponCamera");
-
-        //spread
-        Vector3 bloom = spawn.position + spawn.forward * 1000f;
-        bloom += Random.Range(-loadout[currentIndex].spread, loadout[currentIndex].spread) * spawn.up;
-        bloom += Random.Range(-loadout[currentIndex].spread, loadout[currentIndex].spread) * spawn.right;
-        bloom -= spawn.position;
-        bloom.Normalize();
-
-        //Raycast
-        RaycastHit hit = new RaycastHit();
-        if(Physics.Raycast(spawn.position, bloom, out hit, 100f, canBeShot))
+        
+        for(int i = 0; i < Mathf.Max(1, loadout[currentIndex].pellets); i++)
         {
-            if (hit.collider.CompareTag("Enemy"))
+            //spread
+            Vector3 bloom = spawn.position + spawn.forward * 1000f;
+            bloom += Random.Range(-loadout[currentIndex].spread, loadout[currentIndex].spread) * spawn.up;
+            bloom += Random.Range(-loadout[currentIndex].spread, loadout[currentIndex].spread) * spawn.right;
+            bloom -= spawn.position;
+            bloom.Normalize();
+
+            //Raycast
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(spawn.position, bloom, out hit, 100f, canBeShot))
             {
-                hit.collider.GetComponent<EnemyHealth>().TakeDamage(loadout[currentIndex].damage);
+                var BulletHole = Instantiate(bulletHolePrefabs, hit.point + hit.normal * 0.001f, Quaternion.identity);
+                BulletHole.transform.LookAt(hit.point + hit.normal);
+                Destroy(BulletHole, 2.0f);
+
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    hit.collider.GetComponent<EnemyHealth>().TakeDamage(loadout[currentIndex].damage);
+                }
+
             }
-
         }
-
-        var BulletHole = Instantiate(bulletHolePrefabs, hit.point + hit.normal * 0.001f, Quaternion.identity);
-        BulletHole.transform.LookAt(hit.point + hit.normal);
-        Destroy(BulletHole, 2.0f);
+        
 
         //gun recoil.
         currentWeapon.transform.Rotate(-loadout[currentIndex].recoil, 0, 0);
         currentWeapon.transform.position -= currentWeapon.transform.forward * loadout[currentIndex].kickBack;
-
-        //cooldown
-        currentCooldown = loadout[currentIndex].fireRate;
 
     }
 }
