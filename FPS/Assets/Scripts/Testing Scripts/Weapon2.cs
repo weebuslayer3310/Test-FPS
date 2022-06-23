@@ -115,6 +115,11 @@ public class Weapon2 : MonoBehaviour
         }
     }
 
+    private void PickUp()
+    {
+
+    }
+
     /// <summary>
     /// shooting for the player.
     /// Created by: NghiaDC (20/6/2022)
@@ -155,6 +160,5 @@ public class Weapon2 : MonoBehaviour
         //gun recoil.
         currentWeapon.transform.Rotate(-loadout[currentIndex].recoil, 0, 0);
         currentWeapon.transform.position -= currentWeapon.transform.forward * loadout[currentIndex].kickBack;
-
     }
 }
