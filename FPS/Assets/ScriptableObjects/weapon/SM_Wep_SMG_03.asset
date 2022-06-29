@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SM_Wep_SMG_03
   m_EditorClassIdentifier: 
   name: SM_Wep_SMG_03
-  fireRate: 0.1
+  fireRate: 0.08
   damage: 10
   burst: 1
   pellets: 0

@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: SM_Wep_Shotgun_03
   fireRate: 0.6
-  damage: 5
+  damage: 15
   burst: 0
-  pellets: 5
+  pellets: 7
   recovery: 0
   spread: 60
   recoil: 15
-  kickBack: 0.5
+  kickBack: 0.3
   aimSpeed: 15
   prefab: {fileID: 1187504085507168, guid: 1b3ce02f1d269a24ba4856fc6302bc5b, type: 3}
